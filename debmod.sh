@@ -1,6 +1,9 @@
 #!/bin/bash
 
-#  Script creato da TheZero
+#  Created by: TheZero
+#  Modified & Distributed by: Lorenzo 'EclipseSpark' Faletra <eclipse@frozenbox.org>
+#
+#  v. 1.2
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
