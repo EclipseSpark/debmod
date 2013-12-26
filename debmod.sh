@@ -18,6 +18,13 @@
 #  MA 02110-1301, USA.
 #  
  
+
+ 
+export BLUE='\033[1;94m'
+export GREEN='\033[1;92m'
+export RED='\033[1;91m'
+export RESETCOLOR='\033[1;00m'
+ 
 build(){
 	cd "$ARCHIVE_FULLPATH"
     find . -type f ! -regex '.*\.hg.*' ! -regex '.*?debian-binary.*' ! -regex '.*?DEBIAN.*' -printf '%P ' | xargs md5sum > DEBIAN/md5sums
@@ -105,11 +112,11 @@ while getopts ":b:x:kv" opt; do
       VERBOSE="v"
       ;;
     \?)
-      echo "Invalid option: -$OPTARG" >&2
+      echo "$RED Invalid option:$GREEN -$OPTARG$RESETCOLOR" >&2
       exit 1
       ;;
     :)
-      echo "Option -$OPTARG requires an argument." >&2
+      echo "$RED Option$GREEN -$OPTARG$RED requires an argument.$RESETCOLOR" >&2
       exit 1
       ;;
   esac
@@ -120,7 +127,7 @@ if [ $ACTION == "b" ]; then
 elif [ $ACTION == "x" ]; then
 	extract
 elif [ $ACTION == "n" ]; then
-	echo -e "Usage: \n\t-b [file_path]\t-> Build DEB\n\t-x [dir_path]\t-> Extract DEB \n\t-k\t\t-> Keep File\n\t-v\t\t-> Verbose"
+	echo -e "$BLUE Usage: \n\t$GREEN -b [file_path]\t$RED -> Build DEB\n\t$GREEN -x [dir_path]\t$RED -> Extract DEB \n\t$GREEN -k\t\t$REN -> Keep File\n\t$GREEN -v\t\t$RED -> Verbose$RESETCOLOR"
 	exit 1
 fi
 
