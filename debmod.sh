@@ -3,7 +3,8 @@
 #  Created by: TheZero
 #  Modified & Distributed by: Lorenzo 'EclipseSpark' Faletra <eclipse@frozenbox.org>
 #
-#  v. 1.2
+#
+#  v. 1.7
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -30,7 +31,7 @@ export RESETCOLOR='\033[1;00m'
  
 build(){
 	cd "$ARCHIVE_FULLPATH"
-    find . -type f ! -regex '.*\.hg.*' ! -regex '.*?debian-binary.*' ! -regex '.*?DEBIAN.*' -printf '%P ' | xargs md5sum > DEBIAN/md5sums
+    find . -type f -exec md5sum {} + > DEBIAN/md5sums
     cd ..
     if [ "$VERBOSE" == "" ]; then
 		cmd=`dpkg-deb -b "$ARCHIVE_FULLPATH"`
@@ -57,9 +58,15 @@ extract(){
     ar ${VERBOSE}x "$FILENAME"
 	rm -f$VERBOSE -R "$FILENAME"
     for FILE in *.tar.gz; do [[ -e $FILE ]] && tar x${VERBOSE}pf $FILE; done
+    for FILE in *.tar.xz; do [[ -e $FILE ]] && tar x${VERBOSE}pf $FILE; done
     for FILE in *.tar.lzma; do [[ -e $FILE ]] && tar x${VERBOSE}pf $FILE; done
     [[ -e "control.tar.gz" ]] && rm -f$VERBOSE -R "control.tar.gz"
+    [[ -e "control.tar.xz" ]] && rm -f$VERBOSE -R "control.tar.xz"
+    [[ -e "control.tar.bz2" ]] && rm -f$VERBOSE -R "control.tar.bz2"
+    [[ -e "control.tar.lzma" ]] && rm -f$VERBOSE -R "control.tar.lzma"
     [[ -e "data.tar.gz" ]] && rm -f$VERBOSE -R "data.tar.gz"
+    [[ -e "data.tar.bz2" ]] && rm -f$VERBOSE -R "data.tar.bz2"
+    [[ -e "data.tar.xz" ]] && rm -f$VERBOSE -R "data.tar.xz"
     [[ -e "data.tar.lzma" ]] && rm -f$VERBOSE -R "data.tar.lzma"
     [[ -e "debian-binary" ]] && rm -f$VERBOSE -R "debian-binary"
 
@@ -91,7 +98,7 @@ extract(){
 
 
 # Program Main #
-KEEP="n"
+KEEP="y"
 VERBOSE=""
 ACTION="n"
 
