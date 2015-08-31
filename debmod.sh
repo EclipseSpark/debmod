@@ -4,7 +4,7 @@
 #  Modified & Distributed by: Lorenzo 'EclipseSpark' Faletra <eclipse@frozenbox.org>
 #
 #
-#  v. 1.7
+#  v. 1.8.1
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -30,9 +30,11 @@ export RED='\033[1;91m'
 export RESETCOLOR='\033[1;00m'
  
 build(){
-	cd "$ARCHIVE_FULLPATH"
+	cp "$ARCHIVE_FULLPATH" build-$ARCHIVE_FULLPATH
+	cd build-$ARCHIVE_FULLPATH
     find . -type f -exec md5sum {} + > DEBIAN/md5sums
     cd ..
+    chown root:root -R build-$ARCHIVE_FULLPATH | true
     if [ "$VERBOSE" == "" ]; then
 		cmd=`dpkg-deb -b "$ARCHIVE_FULLPATH"`
 	else
@@ -41,6 +43,7 @@ build(){
     if [ "$KEEP" == "n" ]; then
 		rm -f$VERBOSE -R "$ARCHIVE_FULLPATH"
     fi
+    rm -r build-$ARCHIVE_FULLPATH
 }
 
 
